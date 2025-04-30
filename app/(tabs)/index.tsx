@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <Text>This is home page</Text>
-      <Link href="/login">Click me</Link>
+      {/* <Link href="/login">Click me</Link> */}
       <Pressable onPress={() => router.push("/customer")}>
         <Text>Goto user 2</Text>
       </Pressable>

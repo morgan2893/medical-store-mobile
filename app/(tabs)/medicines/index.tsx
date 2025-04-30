@@ -3,14 +3,7 @@ import { View, Text, FlatList, StyleSheet, Alert } from "react-native";
 import api from "../../../services/api/axiosInstance";
 import PaginatedList from "../../../components/PaginatedList";
 
-const customers = [
-  { id: "1", name: "Alice Johnson", mobile: "98789789" },
-  { id: "2", name: "Bob Smith", mobile: "98789789" },
-  { id: "3", name: "Charlie Davis", mobile: "98789789" },
-  // Add more customer objects as needed
-];
-
-export default function CustomersScreen() {
+export default function MedicineScreen() {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [list, setList] = useState<any>();
 
@@ -18,7 +11,7 @@ export default function CustomersScreen() {
     (async () => {
       try {
         setLoading(true);
-        const res = await api.get("/customers");
+        const res = await api.get("/products");
         setList(res.data);
       } catch (err: any) {
         Alert.alert("error while fetch custromers");
@@ -30,27 +23,25 @@ export default function CustomersScreen() {
   const renderItem = ({ item }: any) => (
     <View style={styles.card}>
       <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.detail}>📧 {item.email}</Text>
-      <Text style={styles.detail}>📞 {item.phone}</Text>
-      <Text style={styles.detail}>🏠 {item.address}</Text>
-      <Text style={styles.balance}>💰 Balance: ₹{item.balance}</Text>
+      <Text style={styles.detail}>🏷️ {item.category}</Text>
+      <Text style={styles.detail}>🏢 {item.manufacturer}</Text>
     </View>
   );
 
   const fetchCustomers = async (page: number, limit = 10) => {
-    const response = await api.get("/customers", {
+    const response = await api.get("/products", {
       params: { page, limit },
     });
 
     return {
-      items: response.data.data, // adjust based on your API structure
-      hasMore: response.data.pagination.next, // or calculate from count/pages
+      items: response.data.data,
+      hasMore: response.data.pagination.next,
     };
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Customers List</Text>
+      <Text style={styles.title}>Medicines List</Text>
 
       <PaginatedList fetchData={fetchCustomers} renderItem={renderItem} />
     </View>
